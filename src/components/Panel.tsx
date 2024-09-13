@@ -10,8 +10,6 @@ export type PanelPropsType = {
 
     count: number
     setCount: (count: number) => void
-
-    changePanel: () => void
 }
 
 export const Panel = (props: PanelPropsType) => {
@@ -45,11 +43,6 @@ export const Panel = (props: PanelPropsType) => {
                     onClick={resetHandler}
                     disabled={count === 0 || isAllDisabled}>
                     reset
-                </button>
-                <button
-                    onClick={props.changePanel}
-                    disabled={count === 0 || isAllDisabled}>
-                    set
                 </button>
             </div>
         </div>

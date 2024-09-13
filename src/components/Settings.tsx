@@ -14,8 +14,6 @@ export type SettingsPropsType = {
     setIsError: (value: boolean) => void
 
     setValue: (value: number) => void
-
-    changePanel: () => void
 }
 
 export const Settings = (props: SettingsPropsType) => {
@@ -24,7 +22,6 @@ export const Settings = (props: SettingsPropsType) => {
     const setHandler = () => {
         props.setMessage(null)
         props.setValue(startValue)
-        props.changePanel()
     }
     const startValueChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         props.setStartValue(Number(e.currentTarget.value))
