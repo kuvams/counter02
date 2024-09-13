@@ -43,12 +43,11 @@ export const Panel = (props: PanelPropsType) => {
                 </button>
                 <button
                     onClick={resetHandler}
-                    disabled={count === 0 || isAllDisabled}>
+                    disabled={count === startValue || isAllDisabled}>
                     reset
                 </button>
                 <button
-                    onClick={props.changePanel}
-                    disabled={count === 0 || isAllDisabled}>
+                    onClick={props.changePanel}>
                     set
                 </button>
             </div>

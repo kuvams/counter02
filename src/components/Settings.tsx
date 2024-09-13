@@ -26,6 +26,10 @@ export const Settings = (props: SettingsPropsType) => {
         props.setValue(startValue)
         props.changePanel()
     }
+    const backHandler = () => {
+        props.setMessage(null)
+        props.changePanel()
+    }
     const startValueChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         props.setStartValue(Number(e.currentTarget.value))
     }
@@ -70,6 +74,9 @@ export const Settings = (props: SettingsPropsType) => {
                 </div>
             </div>
             <div className="buttons">
+                <button onClick={backHandler}>
+                    back
+                </button>
                 <button onClick={setHandler} disabled={isError}>
                     set
                 </button>
