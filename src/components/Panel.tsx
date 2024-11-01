@@ -1,5 +1,8 @@
 import React, {} from "react";
 import {MessageType} from "../App";
+import {useDispatch, useSelector} from "react-redux";
+import {incrementAC, resetCounterAC} from "../model/CounterReducer";
+import {AppRootStateType} from "../app/store";
 
 export type PanelPropsType = {
     maxValue: number
@@ -8,21 +11,21 @@ export type PanelPropsType = {
     isError: boolean
     message: MessageType
 
-    count: number
-    setCount: (count: number) => void
-
     changePanel: () => void
 }
 
 export const Panel = (props: PanelPropsType) => {
-    const {maxValue, startValue, count, message, isError} = props
+    const {maxValue, startValue, message, isError} = props
+    const count = useSelector<AppRootStateType, number>((state) => state.counter.value)
     const limit = count >= maxValue
 
+    const dispatch = useDispatch()
+
     const incHandler = () => {
-        props.setCount(count + 1)
+        dispatch(incrementAC())
     }
     const resetHandler = () => {
-        props.setCount(startValue)
+        dispatch(resetCounterAC())
     }
 
     const isAllDisabled = !!message || isError

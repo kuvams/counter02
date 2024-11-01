@@ -1,19 +1,17 @@
 import React, {ChangeEvent, useEffect} from "react";
 import {MessageType} from "../App";
+import {useDispatch} from "react-redux";
+import {setCounterSettingsAC} from "../model/CounterReducer";
 
 export type SettingsPropsType = {
     maxValue: number
-    setMaxValue: (value: number) => void
 
     startValue: number
-    setStartValue: (value: number) => void
 
     setMessage: (value: MessageType) => void
 
     isError: boolean
     setIsError: (value: boolean) => void
-
-    setValue: (value: number) => void
 
     changePanel: () => void
 }
@@ -21,32 +19,37 @@ export type SettingsPropsType = {
 export const Settings = (props: SettingsPropsType) => {
     const {maxValue, startValue, isError} = props
 
+    const dispatch = useDispatch()
+
+    const [maxValueInput, setMaxValueInput] = React.useState<number>(maxValue)
+    const [startValueInput, setStartValueInput] = React.useState<number>(startValue)
+
     const setHandler = () => {
         props.setMessage(null)
-        props.setValue(startValue)
+        dispatch(setCounterSettingsAC({minValue: startValueInput, maxValue: maxValueInput}))
         props.changePanel()
+        localStorage.setItem('maxValue', JSON.stringify(maxValueInput))
+        localStorage.setItem('startValue', JSON.stringify(startValueInput))
     }
     const backHandler = () => {
         props.setMessage(null)
         props.changePanel()
     }
     const startValueChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        props.setStartValue(Number(e.currentTarget.value))
+        setStartValueInput(Number(e.currentTarget.value))
     }
     const maxValueChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        props.setMaxValue(Number(e.currentTarget.value))
+        setMaxValueInput(Number(e.currentTarget.value))
     }
     useEffect(() => {
-        localStorage.setItem('maxValue', JSON.stringify(maxValue))
-        localStorage.setItem('startValue', JSON.stringify(startValue))
         props.setIsError(false)
-        if (startValue < 0 || maxValue <= startValue) {
+        if (startValueInput < 0 || maxValueInput <= startValueInput) {
             props.setMessage('Incorrect value')
             props.setIsError(true)
         } else {
             props.setMessage('enter values and press "set"')
         }
-    }, [startValue, maxValue])
+    }, [startValueInput, maxValueInput])
 
 
     return (
@@ -59,7 +62,7 @@ export const Settings = (props: SettingsPropsType) => {
                     <input
                         className={isError ? 'errorParamInput' : 'paramInput'}
                         type='number'
-                        value={maxValue}
+                        value={maxValueInput}
                         onChange={maxValueChangeHandler}/>
                 </div>
                 <div className='param'>
@@ -69,7 +72,7 @@ export const Settings = (props: SettingsPropsType) => {
                     <input
                         className={isError ? 'errorParamInput' : 'paramInput'}
                         type='number'
-                        value={startValue}
+                        value={startValueInput}
                         onChange={startValueChangeHandler}/>
                 </div>
             </div>
